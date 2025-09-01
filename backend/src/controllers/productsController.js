@@ -10,10 +10,16 @@ productsController.getProducts = async (req, res) => {
 
 // INSERT
 productsController.createProducts = async (req, res) => {
-  const { name, description, price } = req.body;
-  const newProduct = new productsModel({ name, description, price});
-  await newProduct.save();
-  res.json({ message: "product saved" });
+  try {
+    const { name, description, price } = req.body;
+    const newProduct = new productsModel({ name, description, price });
+    await newProduct.save();
+    console.log("Producto guardado:", newProduct);
+    res.json({ message: "product saved" });
+  } catch (error) {
+    console.error("Error al guardar producto:", error);
+    res.status(500).json({ message: "Error al guardar producto" });
+  }
 };
 
 // DELETE
